@@ -3,7 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class MapReader {
-    public static boolean readMap(String fileName) {
+    public static boolean readMap(String fileName, Graph graph) {
         Scanner scanner;
         try {
             scanner = new Scanner(new File(fileName));
@@ -17,8 +17,9 @@ public class MapReader {
             lineNumber++;
             String[] names = splitLine(line);
             if (isValidLine(line, names, lineNumber)) {
-                System.out.println("Read road: " + names[0] + " - "
-                        + names[1]);
+                graph.addPlace(names[0]);
+                graph.addPlace(names[1]);
+                graph.addRoad(names[0], names[1]);
             }
         }
         scanner.close();

@@ -4,6 +4,10 @@ public class Main {
         if (args.length > 0) {
             fileName = args[0];
         }
-        MapReader.readMap(fileName);
+        Graph graph = new Graph();
+        boolean loaded = MapReader.readMap(fileName, graph);
+        if (loaded) {
+            graph.printGraph();
+        }
     }
 }
