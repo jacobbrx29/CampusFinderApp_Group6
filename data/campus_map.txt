@@ -1,0 +1,17 @@
+MainGate Library
+MainGate ParkingLot
+MainGate AdminBuilding
+Library Cafeteria
+Library ScienceHall
+Library Bookstore
+Cafeteria Gym
+Cafeteria Dormitory
+Cafeteria Bookstore
+Gym Dormitory
+Gym Clinic
+ScienceHall AdminBuilding
+ScienceHall Auditorium
+AdminBuilding Chapel
+Chapel Auditorium
+Dormitory Clinic
+ParkingLot Gym
