@@ -1,3 +1,7 @@
+import java.util.Queue;
+import java.util.LinkedList;
+
+
 public class Graph {
     private static final int MAX_PLACES = 50;
 
@@ -73,6 +77,34 @@ public class Graph {
                 current = current.next;
             }
             System.out.println(line);
+        }
+    }
+
+    public void queueStruct(String startPlace){
+        int startIndex = findPlace(startPlace);
+        if (startIndex == -1) {
+            System.out.println("Place not found"+ startPlace);
+            return;
+        }
+        boolean[] visited = new boolean[count];
+
+        Queue<Integer> queue= new LinkedList<>();
+
+        visited[startIndex] = true;
+
+        while (!queue.isEmpty()){
+            int current = queue.poll();
+            System.out.println(places[current]); // extracts the place from the user that chooses until the queue is empty
+
+            NeighborNode neighbor = neighbors[current];
+            while (neighbor != null){ //
+                if (visited[neighbor.placeIndex]){
+                    visited[neighbor.placeIndex] = true;
+                    queue.add(neighbor.placeIndex);
+                }
+
+            }
+            neighbor = neighbor.next; //finds an anoteher neigbor of the chosen starting point
         }
     }
 }
