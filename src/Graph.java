@@ -1,27 +1,16 @@
-import java.util.Queue;
-import java.util.LinkedList;
-
-
 public class Graph {
     private static final int MAX_PLACES = 50;
 
-    private String[] places;
+    private PlaceList places;
     private NeighborNode[] neighbors;
-    private int count;
 
     public Graph() {
-        places = new String[MAX_PLACES];
+        places = new PlaceList();
         neighbors = new NeighborNode[MAX_PLACES];
-        count = 0;
     }
 
     public int findPlace(String name) {
-        for (int index = 0; index < count; index++) {
-            if (places[index].equals(name)) {
-                return index;
-            }
-        }
-        return -1;
+        return places.indexOf(name);
     }
 
     public int addPlace(String name) {
@@ -29,14 +18,14 @@ public class Graph {
         if (existingIndex != -1) {
             return existingIndex;
         }
-        if (count == MAX_PLACES) {
+        if (places.size() == MAX_PLACES) {
             System.out.println("Graph is full, cannot add " + name);
             return -1;
         }
-        places[count] = name;
-        neighbors[count] = null;
-        count++;
-        return count - 1;
+        int newIndex = places.size();
+        places.add(new Place(name, newIndex));
+        neighbors[newIndex] = null;
+        return newIndex;
     }
 
     public void addRoad(String place1, String place2) {
@@ -65,12 +54,13 @@ public class Graph {
     }
 
     public void printGraph() {
+        int count = places.size();
         System.out.println("Campus map (" + count + " places):");
         for (int index = 0; index < count; index++) {
-            String line = places[index] + " -> ";
+            String line = places.get(index) + " -> ";
             NeighborNode current = neighbors[index];
             while (current != null) {
-                line = line + places[current.placeIndex];
+                line = line + places.get(current.placeIndex);
                 if (current.next != null) {
                     line = line + ", ";
                 }
@@ -80,39 +70,52 @@ public class Graph {
         }
     }
 
-    public void queueStruct(String startPlace){
-        int startIndex = findPlace(startPlace);
-        if (startIndex == -1) {
-            System.out.println("Place not found"+ startPlace);
+    public void printSortedPlaces() {
+        if (places.isEmpty()) {
+            System.out.println("No places loaded. Load a map first.");
             return;
         }
-        boolean[] visited = new boolean[count];
+        PlaceList sorted = places.sortedCopy();
+        System.out.println("Places in A-to-Z order:");
+        for (int i = 0; i < sorted.size(); i++) {
+            System.out.println((i + 1) + ". " + sorted.get(i));
+        }
+    }
 
-        Queue<Integer> queue= new LinkedList<>();
-
+    public void queueStruct(String startPlace) {
+        int startIndex = findPlace(startPlace);
+        if (startIndex == -1) {
+            System.out.println("Place not found: " + startPlace);
+            return;
+        }
+        boolean[] visited = new boolean[places.size()];
+        IntQueue queue = new IntQueue();
         visited[startIndex] = true;
+        queue.add(startIndex);
 
-        while (!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             int current = queue.poll();
-            System.out.println(places[current]); // extracts the place from the user that chooses until the queue is empty
+            System.out.println(places.get(current));
 
             NeighborNode neighbor = neighbors[current];
-            while (neighbor != null){ //
-                if (visited[neighbor.placeIndex]){
+            while (neighbor != null) {
+                if (!visited[neighbor.placeIndex]) {
                     visited[neighbor.placeIndex] = true;
                     queue.add(neighbor.placeIndex);
                 }
-
+                neighbor = neighbor.next;
             }
-            neighbor = neighbor.next; //finds an anoteher neigbor of the chosen starting point
         }
     }
+
     public void findPath(String startPlace, String endPlace) {
+        int count = places.size();
         int startIndex = findPlace(startPlace);
         int endIndex = findPlace(endPlace);
 
         if (startIndex == -1 || endIndex == -1) {
-            System.out.println("Place not found: " + startPlace + " or " + endPlace);
+            System.out.println("Place not found: " + startPlace
+                    + " or " + endPlace);
             return;
         }
 
@@ -122,7 +125,7 @@ public class Graph {
             parent[i] = -1;
         }
 
-        Queue<Integer> queue = new LinkedList<>();
+        IntQueue queue = new IntQueue();
         visited[startIndex] = true;
         queue.add(startIndex);
 
@@ -145,7 +148,8 @@ public class Graph {
         }
 
         if (!visited[endIndex]) {
-            System.out.println("No path exists from " + startPlace + " to " + endPlace);
+            System.out.println("No path exists from " + startPlace
+                    + " to " + endPlace);
             return;
         }
 
@@ -160,7 +164,7 @@ public class Graph {
 
         System.out.print("Path: ");
         for (int i = pathLength - 1; i >= 0; i--) {
-            System.out.print(places[pathBuffer[i]]);
+            System.out.print(places.get(pathBuffer[i]));
             if (i > 0) {
                 System.out.print(" -> ");
             }
@@ -168,7 +172,4 @@ public class Graph {
         System.out.println();
         System.out.println("Number of stops: " + (pathLength - 1));
     }
-
-
-
 }
