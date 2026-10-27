@@ -8,6 +8,7 @@ public class Main {
         boolean loaded = MapReader.readMap(fileName, graph);
         if (loaded) {
             graph.printGraph();
+            graph.lookpath("PlaceA", "PlaceB");
         }
     }
 }

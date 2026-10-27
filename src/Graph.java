@@ -107,4 +107,68 @@ public class Graph {
             neighbor = neighbor.next; //finds an anoteher neigbor of the chosen starting point
         }
     }
+    public void findPath(String startPlace, String endPlace) {
+        int startIndex = findPlace(startPlace);
+        int endIndex = findPlace(endPlace);
+
+        if (startIndex == -1 || endIndex == -1) {
+            System.out.println("Place not found: " + startPlace + " or " + endPlace);
+            return;
+        }
+
+        boolean[] visited = new boolean[count];
+        int[] parent = new int[count];
+        for (int i = 0; i < count; i++) {
+            parent[i] = -1;
+        }
+
+        Queue<Integer> queue = new LinkedList<>();
+        visited[startIndex] = true;
+        queue.add(startIndex);
+
+        while (!queue.isEmpty()) {
+            int current = queue.poll();
+
+            if (current == endIndex) {
+                break;
+            }
+
+            NeighborNode neighbor = neighbors[current];
+            while (neighbor != null) {
+                if (!visited[neighbor.placeIndex]) {
+                    visited[neighbor.placeIndex] = true;
+                    parent[neighbor.placeIndex] = current;
+                    queue.add(neighbor.placeIndex);
+                }
+                neighbor = neighbor.next;
+            }
+        }
+
+        if (!visited[endIndex]) {
+            System.out.println("No path exists from " + startPlace + " to " + endPlace);
+            return;
+        }
+
+        int[] pathBuffer = new int[count];
+        int pathLength = 0;
+        int step = endIndex;
+        while (step != -1) {
+            pathBuffer[pathLength] = step;
+            pathLength++;
+            step = parent[step];
+        }
+
+        System.out.print("Path: ");
+        for (int i = pathLength - 1; i >= 0; i--) {
+            System.out.print(places[pathBuffer[i]]);
+            if (i > 0) {
+                System.out.print(" -> ");
+            }
+        }
+        System.out.println();
+        System.out.println("Number of stops: " + (pathLength - 1));
+    }
+
+
+
 }
