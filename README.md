@@ -42,8 +42,3 @@ java -cp out Main data/test_bad_lines.txt
 - **Reymbert Belga (rymbrt):** Graph class with adjacency list, campus map
   file reader, file format validation, and graph construction from the
   map file (issues #10, #11, #12, #13).
-
-## Help sources
-
-- I (rymbrt) used an AI coding assistant to help draft the Graph and file
-  reader code. I reviewed all of it and understand how every part works.
