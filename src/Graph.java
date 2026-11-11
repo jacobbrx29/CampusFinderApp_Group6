@@ -1,3 +1,8 @@
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
+
 public class Graph {
     private static final int MAX_PLACES = 50;
 
@@ -108,7 +113,36 @@ public class Graph {
         }
     }
 
-    public void findPath(String startPlace, String endPlace) {
+    public void breadthFirst(String start) {
+        int startIndex = findPlace(start);
+        if (startIndex == -1) {
+            System.out.println("Place not found: " + start);
+            return;
+        }
+
+        Set<Integer> visited = new HashSet<>();
+        Queue<Integer> queue = new LinkedList<>();
+
+        visited.add(startIndex);
+        queue.add(startIndex);
+
+        System.out.println("BFS: start --> " + start);
+        while (!queue.isEmpty()) {
+            int current = queue.poll();
+            System.out.println(places.get(current));
+
+            NeighborNode neighbor = neighbors[current];
+            while (neighbor != null) {
+                if (!visited.contains(neighbor.placeIndex)) {
+                    visited.add(neighbor.placeIndex);
+                    queue.add(neighbor.placeIndex);
+                }
+                neighbor = neighbor.next;
+            }
+        }
+    }
+
+    public void lookPath(String startPlace, String endPlace) {
         int count = places.size();
         int startIndex = findPlace(startPlace);
         int endIndex = findPlace(endPlace);
