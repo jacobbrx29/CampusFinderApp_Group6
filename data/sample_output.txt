@@ -19,19 +19,23 @@ No places loaded. Load a map first.
 Enter choice (1-4): 1
 
 Enter map file (press Enter for default): 
-Campus map (12 places):
-MainGate -> Library, ParkingLot, AdminBuilding
-Library -> MainGate, Cafeteria, ScienceHall, Bookstore
-ParkingLot -> MainGate, Gym
-AdminBuilding -> MainGate, ScienceHall, Chapel
-Cafeteria -> Library, Gym, Dormitory, Bookstore
-ScienceHall -> Library, AdminBuilding, Auditorium
-Bookstore -> Library, Cafeteria
-Gym -> Cafeteria, Dormitory, Clinic, ParkingLot
-Dormitory -> Cafeteria, Gym, Clinic
-Clinic -> Gym, Dormitory
-Auditorium -> ScienceHall, Chapel
-Chapel -> AdminBuilding, Auditorium
+Campus map (16 places):
+StLaSalleHall -> JohnHall, ConnonHall, YuchengcoHall, HenrySyHall, StJosephHall
+JohnHall -> StLaSalleHall
+ConnonHall -> StLaSalleHall, YuchengcoHall
+YuchengcoHall -> ConnonHall, StLaSalleHall
+HenrySyHall -> StLaSalleHall, BloemenHall, FacultyCenter, VelascoHall, StMiguelHall
+StJosephHall -> StLaSalleHall, FacultyCenter, WilliamHall
+BloemenHall -> HenrySyHall, VelascoHall
+FacultyCenter -> HenrySyHall, StJosephHall
+WilliamHall -> StJosephHall, VelascoHall
+VelascoHall -> WilliamHall, BloemenHall, HenrySyHall, RazonSportsCenter, GokongweiHall
+StMiguelHall -> HenrySyHall, MutienMarieHall
+MutienMarieHall -> StMiguelHall, STRC
+STRC -> MutienMarieHall, RazonSportsCenter
+RazonSportsCenter -> STRC, VelascoHall, AndrewGonzalezHall
+GokongweiHall -> VelascoHall, AndrewGonzalezHall
+AndrewGonzalezHall -> GokongweiHall, RazonSportsCenter
 
 === Campus Map Finder ===
 1. Load campus map
@@ -41,18 +45,22 @@ Chapel -> AdminBuilding, Auditorium
 Enter choice (1-4): 2
 
 Places in A-to-Z order:
-1. AdminBuilding
-2. Auditorium
-3. Bookstore
-4. Cafeteria
-5. Chapel
-6. Clinic
-7. Dormitory
-8. Gym
-9. Library
-10. MainGate
-11. ParkingLot
-12. ScienceHall
+1. AndrewGonzalezHall
+2. BloemenHall
+3. ConnonHall
+4. FacultyCenter
+5. GokongweiHall
+6. HenrySyHall
+7. JohnHall
+8. MutienMarieHall
+9. RazonSportsCenter
+10. StJosephHall
+11. StLaSalleHall
+12. StMiguelHall
+13. STRC
+14. VelascoHall
+15. WilliamHall
+16. YuchengcoHall
 
 === Campus Map Finder ===
 1. Load campus map
@@ -61,11 +69,11 @@ Places in A-to-Z order:
 4. Exit
 Enter choice (1-4): 3
 
-Enter start place: MainGate
-Enter destination place: Clinic
+Enter start place: StLaSalleHall
+Enter destination place: AndrewGonzalezHall
 
-Path: MainGate -> ParkingLot -> Gym -> Clinic
-Number of stops: 3
+Path: StLaSalleHall -> HenrySyHall -> VelascoHall -> RazonSportsCenter -> AndrewGonzalezHall
+Number of stops: 4
 
 === Campus Map Finder ===
 1. Load campus map
@@ -74,10 +82,10 @@ Number of stops: 3
 4. Exit
 Enter choice (1-4): 3
 
-Enter start place: MainGate
+Enter start place: StLaSalleHall
 Enter destination place: Nowhere
 
-Place not found: MainGate or Nowhere
+Place not found: StLaSalleHall or Nowhere
 
 === Campus Map Finder ===
 1. Load campus map

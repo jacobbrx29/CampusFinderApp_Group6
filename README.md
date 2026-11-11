@@ -32,7 +32,7 @@ src/
   IntQueue.java      Custom circular array queue for BFS
   Week1Tests.java    Unit tests for PlaceList and IntQueue
 data/
-  campus_map.txt     Campus map (12 places, 17 roads)
+  campus_map.txt     Campus map (16 DLSU buildings, 21 roads)
   test_bad_lines.txt Test file with blank lines, bad tokens, and self-loops
   sample_output.txt  Example console run of all 4 menu options
 ```
