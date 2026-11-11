@@ -1,6 +1,5 @@
 === Campus Map Finder: Example Run (Week 3) ===
 
-$ java -cp out Main
 
 === Campus Map Finder ===
 1. Load campus map
