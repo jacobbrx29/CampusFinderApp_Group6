@@ -1,0 +1,96 @@
+=== Campus Map Finder: Example Run (Week 3) ===
+
+
+=== Campus Map Finder ===
+1. Load campus map
+2. View places (A-to-Z)
+3. Find shortest route (BFS)
+4. Exit
+Enter choice (1-4): 2
+
+No places loaded. Load a map first.
+
+=== Campus Map Finder ===
+1. Load campus map
+2. View places (A-to-Z)
+3. Find shortest route (BFS)
+4. Exit
+Enter choice (1-4): 1
+
+Enter map file (press Enter for default): 
+Campus map (16 places):
+StLaSalleHall -> JohnHall, ConnonHall, YuchengcoHall, HenrySyHall, StJosephHall
+JohnHall -> StLaSalleHall
+ConnonHall -> StLaSalleHall, YuchengcoHall
+YuchengcoHall -> ConnonHall, StLaSalleHall
+HenrySyHall -> StLaSalleHall, BloemenHall, FacultyCenter, VelascoHall, StMiguelHall
+StJosephHall -> StLaSalleHall, FacultyCenter, WilliamHall
+BloemenHall -> HenrySyHall, VelascoHall
+FacultyCenter -> HenrySyHall, StJosephHall
+WilliamHall -> StJosephHall, VelascoHall
+VelascoHall -> WilliamHall, BloemenHall, HenrySyHall, RazonSportsCenter, GokongweiHall
+StMiguelHall -> HenrySyHall, MutienMarieHall
+MutienMarieHall -> StMiguelHall, STRC
+STRC -> MutienMarieHall, RazonSportsCenter
+RazonSportsCenter -> STRC, VelascoHall, AndrewGonzalezHall
+GokongweiHall -> VelascoHall, AndrewGonzalezHall
+AndrewGonzalezHall -> GokongweiHall, RazonSportsCenter
+
+=== Campus Map Finder ===
+1. Load campus map
+2. View places (A-to-Z)
+3. Find shortest route (BFS)
+4. Exit
+Enter choice (1-4): 2
+
+Places in A-to-Z order:
+1. AndrewGonzalezHall
+2. BloemenHall
+3. ConnonHall
+4. FacultyCenter
+5. GokongweiHall
+6. HenrySyHall
+7. JohnHall
+8. MutienMarieHall
+9. RazonSportsCenter
+10. StJosephHall
+11. StLaSalleHall
+12. StMiguelHall
+13. STRC
+14. VelascoHall
+15. WilliamHall
+16. YuchengcoHall
+
+=== Campus Map Finder ===
+1. Load campus map
+2. View places (A-to-Z)
+3. Find shortest route (BFS)
+4. Exit
+Enter choice (1-4): 3
+
+Enter start place: StLaSalleHall
+Enter destination place: AndrewGonzalezHall
+
+Path: StLaSalleHall -> HenrySyHall -> VelascoHall -> RazonSportsCenter -> AndrewGonzalezHall
+Number of stops: 4
+
+=== Campus Map Finder ===
+1. Load campus map
+2. View places (A-to-Z)
+3. Find shortest route (BFS)
+4. Exit
+Enter choice (1-4): 3
+
+Enter start place: StLaSalleHall
+Enter destination place: Nowhere
+
+Place not found: StLaSalleHall or Nowhere
+
+=== Campus Map Finder ===
+1. Load campus map
+2. View places (A-to-Z)
+3. Find shortest route (BFS)
+4. Exit
+Enter choice (1-4): 4
+
+Exiting program. Goodbye!

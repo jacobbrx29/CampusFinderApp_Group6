@@ -54,6 +54,10 @@ public class Graph {
     }
 
     public void printGraph() {
+        if (places.isEmpty()) {
+            System.out.println("No places loaded. Load a map first.");
+            return;
+        }
         int count = places.size();
         System.out.println("Campus map (" + count + " places):");
         for (int index = 0; index < count; index++) {
@@ -70,6 +74,10 @@ public class Graph {
         }
     }
 
+    public boolean isEmpty() {
+        return places.isEmpty();
+    }
+
     public void printSortedPlaces() {
         if (places.isEmpty()) {
             System.out.println("No places loaded. Load a map first.");
@@ -83,6 +91,10 @@ public class Graph {
     }
 
     public void queueStruct(String startPlace) {
+        if (places.isEmpty()) {
+            System.out.println("No places loaded. Load a map first.");
+            return;
+        }
         int startIndex = findPlace(startPlace);
         if (startIndex == -1) {
             System.out.println("Place not found: " + startPlace);
@@ -108,7 +120,45 @@ public class Graph {
         }
     }
 
-    public void findPath(String startPlace, String endPlace) {
+    public void breadthFirst(String start) {
+        if (places.isEmpty()) {
+            System.out.println("No places loaded. Load a map first.");
+            return;
+        }
+        int startIndex = findPlace(start);
+        if (startIndex == -1) {
+            System.out.println("Place not found: " + start);
+            return;
+        }
+
+        boolean[] visited = new boolean[places.size()];
+        IntQueue queue = new IntQueue();
+
+        visited[startIndex] = true;
+        queue.add(startIndex);
+
+        System.out.println("BFS: start --> " + start);
+        while (!queue.isEmpty()) {
+            int current = queue.poll();
+            System.out.println(places.get(current));
+
+            NeighborNode neighbor = neighbors[current];
+            while (neighbor != null) {
+                int nextIndex = neighbor.placeIndex;
+                if (!visited[nextIndex]) {
+                    visited[nextIndex] = true;
+                    queue.add(nextIndex);
+                }
+                neighbor = neighbor.next;
+            }
+        }
+    }
+
+    public void lookPath(String startPlace, String endPlace) {
+        if (places.isEmpty()) {
+            System.out.println("No places loaded. Load a map first.");
+            return;
+        }
         int count = places.size();
         int startIndex = findPlace(startPlace);
         int endIndex = findPlace(endPlace);
@@ -138,10 +188,11 @@ public class Graph {
 
             NeighborNode neighbor = neighbors[current];
             while (neighbor != null) {
-                if (!visited[neighbor.placeIndex]) {
-                    visited[neighbor.placeIndex] = true;
-                    parent[neighbor.placeIndex] = current;
-                    queue.add(neighbor.placeIndex);
+                int nextIndex = neighbor.placeIndex;
+                if (!visited[nextIndex]) {
+                    visited[nextIndex] = true;
+                    parent[nextIndex] = current;
+                    queue.add(nextIndex);
                 }
                 neighbor = neighbor.next;
             }
@@ -153,23 +204,27 @@ public class Graph {
             return;
         }
 
-        int[] pathBuffer = new int[count];
-        int pathLength = 0;
+        printPath(parent, endIndex);
+    }
+
+    private void printPath(int[] parent, int endIndex) {
+        int[] path = new int[places.size()];
+        int length = 0;
         int step = endIndex;
         while (step != -1) {
-            pathBuffer[pathLength] = step;
-            pathLength++;
+            path[length] = step;
+            length++;
             step = parent[step];
         }
 
         System.out.print("Path: ");
-        for (int i = pathLength - 1; i >= 0; i--) {
-            System.out.print(places.get(pathBuffer[i]));
+        for (int i = length - 1; i >= 0; i--) {
+            System.out.print(places.get(path[i]));
             if (i > 0) {
                 System.out.print(" -> ");
             }
         }
         System.out.println();
-        System.out.println("Number of stops: " + (pathLength - 1));
+        System.out.println("Number of stops: " + (length - 1));
     }
 }
