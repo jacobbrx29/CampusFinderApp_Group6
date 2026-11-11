@@ -1,0 +1,89 @@
+=== Campus Map Finder: Example Run (Week 3) ===
+
+$ java -cp out Main
+
+=== Campus Map Finder ===
+1. Load campus map
+2. View places (A-to-Z)
+3. Find shortest route (BFS)
+4. Exit
+Enter choice (1-4): 2
+
+No places loaded. Load a map first.
+
+=== Campus Map Finder ===
+1. Load campus map
+2. View places (A-to-Z)
+3. Find shortest route (BFS)
+4. Exit
+Enter choice (1-4): 1
+
+Enter map file (press Enter for default): 
+Campus map (12 places):
+MainGate -> Library, ParkingLot, AdminBuilding
+Library -> MainGate, Cafeteria, ScienceHall, Bookstore
+ParkingLot -> MainGate, Gym
+AdminBuilding -> MainGate, ScienceHall, Chapel
+Cafeteria -> Library, Gym, Dormitory, Bookstore
+ScienceHall -> Library, AdminBuilding, Auditorium
+Bookstore -> Library, Cafeteria
+Gym -> Cafeteria, Dormitory, Clinic, ParkingLot
+Dormitory -> Cafeteria, Gym, Clinic
+Clinic -> Gym, Dormitory
+Auditorium -> ScienceHall, Chapel
+Chapel -> AdminBuilding, Auditorium
+
+=== Campus Map Finder ===
+1. Load campus map
+2. View places (A-to-Z)
+3. Find shortest route (BFS)
+4. Exit
+Enter choice (1-4): 2
+
+Places in A-to-Z order:
+1. AdminBuilding
+2. Auditorium
+3. Bookstore
+4. Cafeteria
+5. Chapel
+6. Clinic
+7. Dormitory
+8. Gym
+9. Library
+10. MainGate
+11. ParkingLot
+12. ScienceHall
+
+=== Campus Map Finder ===
+1. Load campus map
+2. View places (A-to-Z)
+3. Find shortest route (BFS)
+4. Exit
+Enter choice (1-4): 3
+
+Enter start place: MainGate
+Enter destination place: Clinic
+
+Path: MainGate -> ParkingLot -> Gym -> Clinic
+Number of stops: 3
+
+=== Campus Map Finder ===
+1. Load campus map
+2. View places (A-to-Z)
+3. Find shortest route (BFS)
+4. Exit
+Enter choice (1-4): 3
+
+Enter start place: MainGate
+Enter destination place: Nowhere
+
+Place not found: MainGate or Nowhere
+
+=== Campus Map Finder ===
+1. Load campus map
+2. View places (A-to-Z)
+3. Find shortest route (BFS)
+4. Exit
+Enter choice (1-4): 4
+
+Exiting program. Goodbye!
