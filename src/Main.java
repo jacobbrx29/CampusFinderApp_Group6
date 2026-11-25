@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+// Console entry point running the 4-choice Campus Map Finder menu.
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -9,7 +10,7 @@ public class Main {
         }
         boolean running = true;
         while (running) {
-            printMenu();
+            printMenu(graph);
             String choice = scanner.nextLine().trim();
             System.out.println();
             if (choice.equals("1")) {
@@ -28,15 +29,26 @@ public class Main {
         }
     }
 
-    private static void printMenu() {
+    private static void printMenu(Graph graph) {
+        if (isDlsuMap(graph)) {
+            CampusMapView.printMap();
+        }
         System.out.println("=== Campus Map Finder ===");
         System.out.println("1. Load campus map");
         System.out.println("2. View places (A-to-Z)");
-        System.out.println("3. Find shortest route (BFS)");
+        System.out.println("3. Find a path between 2 places");
         System.out.println("4. Exit");
         System.out.print("Enter choice (1-4): ");
     }
 
+    // Shows the ASCII DLSU map only when the DLSU campus map is loaded.
+    private static boolean isDlsuMap(Graph graph) {
+        return graph.findPlace("StLaSalleHall") != -1
+                && graph.findPlace("HenrySyHall") != -1
+                && graph.findPlace("GokongweiHall") != -1;
+    }
+
+    // Loads a map file into a fresh graph and prints its adjacency list.
     private static Graph handleLoadMap(Scanner scanner, Graph current) {
         System.out.print("Enter map file (press Enter for default): ");
         String file = scanner.nextLine().trim();
@@ -51,6 +63,7 @@ public class Main {
         return current;
     }
 
+    // Prompts for start and destination places and prints both routes.
     private static void handleFindRoute(Scanner scanner, Graph graph) {
         if (graph.isEmpty()) {
             System.out.println("No places loaded. Load a map first.");

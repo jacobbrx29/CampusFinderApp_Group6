@@ -1,21 +1,40 @@
-StLaSalleHall JohnHall
-StLaSalleHall ConnonHall
-ConnonHall YuchengcoHall
-StLaSalleHall YuchengcoHall
-StLaSalleHall HenrySyHall
-StLaSalleHall StJosephHall
-HenrySyHall BloemenHall
-HenrySyHall FacultyCenter
-StJosephHall FacultyCenter
-StJosephHall WilliamHall
-WilliamHall VelascoHall
-BloemenHall VelascoHall
-HenrySyHall VelascoHall
-HenrySyHall StMiguelHall
-StMiguelHall MutienMarieHall
-MutienMarieHall STRC
-STRC RazonSportsCenter
-VelascoHall RazonSportsCenter
-VelascoHall GokongweiHall
-GokongweiHall AndrewGonzalezHall
-RazonSportsCenter AndrewGonzalezHall
+JohnHall StLaSalleHall 91
+JohnHall ConnonHall 63
+StLaSalleHall ConnonHall 56
+ConnonHall YuchengcoHall 47
+StLaSalleHall YuchengcoHall 63
+StLaSalleHall HenrySyHall 100
+StLaSalleHall VelascoHall 134
+YuchengcoHall HenrySyHall 72
+YuchengcoHall StJosephHall 106
+FacultyCenter StJosephHall 48
+FacultyCenter WilliamHall 56
+WilliamHall StJosephHall 34
+WilliamHall BloemenHall 55
+StJosephHall HenrySyHall 66
+StJosephHall BloemenHall 41
+HenrySyHall BloemenHall 61
+HenrySyHall VelascoHall 54
+BloemenHall VelascoHall 63
+BloemenHall StMiguelHall 34
+VelascoHall StMiguelHall 72
+VelascoHall AgnoGate 48
+StMiguelHall MutienMarieHall 42
+StMiguelHall AgnoGate 35
+StMiguelHall GokongweiHall 73
+AgnoGate GokongweiHall 53
+AgnoGate STRC 98
+AgnoGate RazonSportsCenter 162
+AgnoGate AndrewGonzalezHall 154
+STRC RazonSportsCenter 69
+STRC AndrewGonzalezHall 86
+RazonSportsCenter AndrewGonzalezHall 51
+StLaSalleHall Gate1 77
+Gate1 Gate2 143
+StLaSalleHall Gate2 88
+HenrySyHall Gate2 84
+VelascoHall Gate2 74
+Gate2 Gate4A 146
+Gate4A GokongweiHall 42
+Gate4A Gate5A 102
+Gate5A AndrewGonzalezHall 40

@@ -1,6 +1,9 @@
 Library Cafeteria
 
-Gym Library Clinic
-Gym Gym
-Cafeteria Gym
+Gym Library Clinic 30
+Gym Gym 10
+Cafeteria Gym 15
 OnlyOneName
+Library Gym abc
+Library Gym -5
+IslandA IslandB 10

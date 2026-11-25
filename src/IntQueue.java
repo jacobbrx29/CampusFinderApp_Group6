@@ -1,3 +1,4 @@
+// Circular array-based FIFO queue of integer place indices for BFS.
 public class IntQueue {
     private int[] items;
     private int head;
@@ -11,6 +12,7 @@ public class IntQueue {
         size = 0;
     }
 
+    // Adds a value to the back of the queue, doubling capacity if full.
     public void add(int value) {
         if (size == items.length) {
             grow();
@@ -20,6 +22,7 @@ public class IntQueue {
         size++;
     }
 
+    // Removes and returns the front item, or -1 if the queue is empty.
     public int poll() {
         if (size == 0) {
             return -1;
@@ -34,6 +37,7 @@ public class IntQueue {
         return size == 0;
     }
 
+    // Copies wrapped elements into a larger array starting at index 0.
     private void grow() {
         int[] bigger = new int[items.length * 2];
         for (int i = 0; i < size; i++) {
