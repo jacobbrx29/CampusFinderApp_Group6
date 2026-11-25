@@ -1,10 +1,11 @@
-=== Campus Map Finder: Example Run (Week 3) ===
+=== Campus Map Finder: Example Run ===
 
+$ java -cp out Main
 
 === Campus Map Finder ===
 1. Load campus map
 2. View places (A-to-Z)
-3. Find shortest route (BFS)
+3. Find a path between 2 places
 4. Exit
 Enter choice (1-4): 2
 
@@ -13,83 +14,331 @@ No places loaded. Load a map first.
 === Campus Map Finder ===
 1. Load campus map
 2. View places (A-to-Z)
-3. Find shortest route (BFS)
+3. Find a path between 2 places
 4. Exit
 Enter choice (1-4): 1
 
 Enter map file (press Enter for default): 
-Campus map (16 places):
-StLaSalleHall -> JohnHall, ConnonHall, YuchengcoHall, HenrySyHall, StJosephHall
-JohnHall -> StLaSalleHall
-ConnonHall -> StLaSalleHall, YuchengcoHall
-YuchengcoHall -> ConnonHall, StLaSalleHall
-HenrySyHall -> StLaSalleHall, BloemenHall, FacultyCenter, VelascoHall, StMiguelHall
-StJosephHall -> StLaSalleHall, FacultyCenter, WilliamHall
-BloemenHall -> HenrySyHall, VelascoHall
-FacultyCenter -> HenrySyHall, StJosephHall
-WilliamHall -> StJosephHall, VelascoHall
-VelascoHall -> WilliamHall, BloemenHall, HenrySyHall, RazonSportsCenter, GokongweiHall
-StMiguelHall -> HenrySyHall, MutienMarieHall
-MutienMarieHall -> StMiguelHall, STRC
-STRC -> MutienMarieHall, RazonSportsCenter
-RazonSportsCenter -> STRC, VelascoHall, AndrewGonzalezHall
-GokongweiHall -> VelascoHall, AndrewGonzalezHall
-AndrewGonzalezHall -> GokongweiHall, RazonSportsCenter
+Campus map (21 places):
+JohnHall -> StLaSalleHall (91m), ConnonHall (63m)
+StLaSalleHall -> JohnHall (91m), ConnonHall (56m), YuchengcoHall (63m), HenrySyHall (100m), VelascoHall (134m), Gate1 (77m), Gate2 (88m)
+ConnonHall -> JohnHall (63m), StLaSalleHall (56m), YuchengcoHall (47m)
+YuchengcoHall -> ConnonHall (47m), StLaSalleHall (63m), HenrySyHall (72m), StJosephHall (106m)
+HenrySyHall -> StLaSalleHall (100m), YuchengcoHall (72m), StJosephHall (66m), BloemenHall (61m), VelascoHall (54m), Gate2 (84m)
+VelascoHall -> StLaSalleHall (134m), HenrySyHall (54m), BloemenHall (63m), StMiguelHall (72m), AgnoGate (48m), Gate2 (74m)
+StJosephHall -> YuchengcoHall (106m), FacultyCenter (48m), WilliamHall (34m), HenrySyHall (66m), BloemenHall (41m)
+FacultyCenter -> StJosephHall (48m), WilliamHall (56m)
+WilliamHall -> FacultyCenter (56m), StJosephHall (34m), BloemenHall (55m)
+BloemenHall -> WilliamHall (55m), StJosephHall (41m), HenrySyHall (61m), VelascoHall (63m), StMiguelHall (34m)
+StMiguelHall -> BloemenHall (34m), VelascoHall (72m), MutienMarieHall (42m), AgnoGate (35m), GokongweiHall (73m)
+AgnoGate -> VelascoHall (48m), StMiguelHall (35m), GokongweiHall (53m), STRC (98m), RazonSportsCenter (162m), AndrewGonzalezHall (154m)
+MutienMarieHall -> StMiguelHall (42m)
+GokongweiHall -> StMiguelHall (73m), AgnoGate (53m), Gate4A (42m)
+STRC -> AgnoGate (98m), RazonSportsCenter (69m), AndrewGonzalezHall (86m)
+RazonSportsCenter -> AgnoGate (162m), STRC (69m), AndrewGonzalezHall (51m)
+AndrewGonzalezHall -> AgnoGate (154m), STRC (86m), RazonSportsCenter (51m), Gate5A (40m)
+Gate1 -> StLaSalleHall (77m), Gate2 (143m)
+Gate2 -> Gate1 (143m), StLaSalleHall (88m), HenrySyHall (84m), VelascoHall (74m), Gate4A (146m)
+Gate4A -> Gate2 (146m), GokongweiHall (42m), Gate5A (102m)
+Gate5A -> Gate4A (102m), AndrewGonzalezHall (40m)
 
++----------------------------------------------------------------+
+|           DE LA SALLE UNIVERSITY - CAMPUS MAP GRAPH            |
+|  NORTH ->       Scale: ---- = 30m (1 col ~ 7.5m, 1 row ~ 15m)  |
++----------------------------------------------------------------+
+|                        [FC]-----[W]                            |
+|                          |     / |                             |
+|                  +------[==SJ==] |       [MM]                  |
+|                 /        |     \ |      /                      |
+|   +-----[SPS]--[Y]------[H]-----[B]--[M]-      [STRC]    [E]   |
+|   |        |    |      / | \    |   / |  \        |       |    |
+|  [J]       |    |     /  |  \   |  / [AG]-:-------+-------+    |
+|   |        |    |    /   |   \  | /  / \   \              |    |
+|   |        |    |   /    |    \ |/  /   \   \             |    |
+|   |        |    |  /     |     \|/ /     \  |             |    |
+|   +-------[===LS===]-----:-----[V]-       -[G]           [A]   |
+|      +-----+         \   |    /             |             |    |
+|      |                \  | /--+             |             |    |
+|  ==[G1]================[G2]===============[G4A]=========[G5A]= |
++----------------------------------------------------------------+
+| Legend (use exact names in option 3):                          |
+|  LS=StLaSalleHall   FC=FacultyCenter    M=StMiguelHall         |
+|  J=JohnHall         W=WilliamHall       MM=MutienMarieHall     |
+|  SPS=ConnonHall     SJ=StJosephHall     STRC=STRC              |
+|  Y=YuchengcoHall    H=HenrySyHall       E=RazonSportsCenter    |
+|  V=VelascoHall      B=BloemenHall       G=GokongweiHall        |
+|  A=AndrewGonzalezHall  G1=Gate1  G2=Gate2  AG=AgnoGate         |
+|  G4A=Gate4A  G5A=Gate5A                                        |
++----------------------------------------------------------------+
 === Campus Map Finder ===
 1. Load campus map
 2. View places (A-to-Z)
-3. Find shortest route (BFS)
+3. Find a path between 2 places
 4. Exit
 Enter choice (1-4): 2
 
 Places in A-to-Z order:
-1. AndrewGonzalezHall
-2. BloemenHall
-3. ConnonHall
-4. FacultyCenter
-5. GokongweiHall
-6. HenrySyHall
-7. JohnHall
-8. MutienMarieHall
-9. RazonSportsCenter
-10. StJosephHall
-11. StLaSalleHall
-12. StMiguelHall
-13. STRC
-14. VelascoHall
-15. WilliamHall
-16. YuchengcoHall
+1. AgnoGate
+2. AndrewGonzalezHall
+3. BloemenHall
+4. ConnonHall
+5. FacultyCenter
+6. Gate1
+7. Gate2
+8. Gate4A
+9. Gate5A
+10. GokongweiHall
+11. HenrySyHall
+12. JohnHall
+13. MutienMarieHall
+14. RazonSportsCenter
+15. StJosephHall
+16. StLaSalleHall
+17. StMiguelHall
+18. STRC
+19. VelascoHall
+20. WilliamHall
+21. YuchengcoHall
 
++----------------------------------------------------------------+
+|           DE LA SALLE UNIVERSITY - CAMPUS MAP GRAPH            |
+|  NORTH ->       Scale: ---- = 30m (1 col ~ 7.5m, 1 row ~ 15m)  |
++----------------------------------------------------------------+
+|                        [FC]-----[W]                            |
+|                          |     / |                             |
+|                  +------[==SJ==] |       [MM]                  |
+|                 /        |     \ |      /                      |
+|   +-----[SPS]--[Y]------[H]-----[B]--[M]-      [STRC]    [E]   |
+|   |        |    |      / | \    |   / |  \        |       |    |
+|  [J]       |    |     /  |  \   |  / [AG]-:-------+-------+    |
+|   |        |    |    /   |   \  | /  / \   \              |    |
+|   |        |    |   /    |    \ |/  /   \   \             |    |
+|   |        |    |  /     |     \|/ /     \  |             |    |
+|   +-------[===LS===]-----:-----[V]-       -[G]           [A]   |
+|      +-----+         \   |    /             |             |    |
+|      |                \  | /--+             |             |    |
+|  ==[G1]================[G2]===============[G4A]=========[G5A]= |
++----------------------------------------------------------------+
+| Legend (use exact names in option 3):                          |
+|  LS=StLaSalleHall   FC=FacultyCenter    M=StMiguelHall         |
+|  J=JohnHall         W=WilliamHall       MM=MutienMarieHall     |
+|  SPS=ConnonHall     SJ=StJosephHall     STRC=STRC              |
+|  Y=YuchengcoHall    H=HenrySyHall       E=RazonSportsCenter    |
+|  V=VelascoHall      B=BloemenHall       G=GokongweiHall        |
+|  A=AndrewGonzalezHall  G1=Gate1  G2=Gate2  AG=AgnoGate         |
+|  G4A=Gate4A  G5A=Gate5A                                        |
++----------------------------------------------------------------+
 === Campus Map Finder ===
 1. Load campus map
 2. View places (A-to-Z)
-3. Find shortest route (BFS)
+3. Find a path between 2 places
 4. Exit
 Enter choice (1-4): 3
 
-Enter start place: StLaSalleHall
-Enter destination place: AndrewGonzalezHall
+Enter start place: ConnonHall
+Enter destination place: GokongweiHall
+Fewest-stops path (BFS): ConnonHall -> StLaSalleHall -> VelascoHall -> StMiguelHall -> GokongweiHall
+  Stops: 4 | Distance: 335 meters
+Shortest-distance path (Dijkstra): ConnonHall -> YuchengcoHall -> HenrySyHall -> VelascoHall -> AgnoGate -> GokongweiHall
+  Stops: 5 | Distance: 274 meters
 
-Path: StLaSalleHall -> HenrySyHall -> VelascoHall -> RazonSportsCenter -> AndrewGonzalezHall
-Number of stops: 4
-
++----------------------------------------------------------------+
+|           DE LA SALLE UNIVERSITY - CAMPUS MAP GRAPH            |
+|  NORTH ->       Scale: ---- = 30m (1 col ~ 7.5m, 1 row ~ 15m)  |
++----------------------------------------------------------------+
+|                        [FC]-----[W]                            |
+|                          |     / |                             |
+|                  +------[==SJ==] |       [MM]                  |
+|                 /        |     \ |      /                      |
+|   +-----[SPS]--[Y]------[H]-----[B]--[M]-      [STRC]    [E]   |
+|   |        |    |      / | \    |   / |  \        |       |    |
+|  [J]       |    |     /  |  \   |  / [AG]-:-------+-------+    |
+|   |        |    |    /   |   \  | /  / \   \              |    |
+|   |        |    |   /    |    \ |/  /   \   \             |    |
+|   |        |    |  /     |     \|/ /     \  |             |    |
+|   +-------[===LS===]-----:-----[V]-       -[G]           [A]   |
+|      +-----+         \   |    /             |             |    |
+|      |                \  | /--+             |             |    |
+|  ==[G1]================[G2]===============[G4A]=========[G5A]= |
++----------------------------------------------------------------+
+| Legend (use exact names in option 3):                          |
+|  LS=StLaSalleHall   FC=FacultyCenter    M=StMiguelHall         |
+|  J=JohnHall         W=WilliamHall       MM=MutienMarieHall     |
+|  SPS=ConnonHall     SJ=StJosephHall     STRC=STRC              |
+|  Y=YuchengcoHall    H=HenrySyHall       E=RazonSportsCenter    |
+|  V=VelascoHall      B=BloemenHall       G=GokongweiHall        |
+|  A=AndrewGonzalezHall  G1=Gate1  G2=Gate2  AG=AgnoGate         |
+|  G4A=Gate4A  G5A=Gate5A                                        |
++----------------------------------------------------------------+
 === Campus Map Finder ===
 1. Load campus map
 2. View places (A-to-Z)
-3. Find shortest route (BFS)
+3. Find a path between 2 places
+4. Exit
+Enter choice (1-4): 3
+
+Enter start place: VelascoHall
+Enter destination place: GokongweiHall
+Fewest-stops path (BFS): VelascoHall -> StMiguelHall -> GokongweiHall
+  Stops: 2 | Distance: 145 meters
+Shortest-distance path (Dijkstra): VelascoHall -> AgnoGate -> GokongweiHall
+  Stops: 2 | Distance: 101 meters
+
++----------------------------------------------------------------+
+|           DE LA SALLE UNIVERSITY - CAMPUS MAP GRAPH            |
+|  NORTH ->       Scale: ---- = 30m (1 col ~ 7.5m, 1 row ~ 15m)  |
++----------------------------------------------------------------+
+|                        [FC]-----[W]                            |
+|                          |     / |                             |
+|                  +------[==SJ==] |       [MM]                  |
+|                 /        |     \ |      /                      |
+|   +-----[SPS]--[Y]------[H]-----[B]--[M]-      [STRC]    [E]   |
+|   |        |    |      / | \    |   / |  \        |       |    |
+|  [J]       |    |     /  |  \   |  / [AG]-:-------+-------+    |
+|   |        |    |    /   |   \  | /  / \   \              |    |
+|   |        |    |   /    |    \ |/  /   \   \             |    |
+|   |        |    |  /     |     \|/ /     \  |             |    |
+|   +-------[===LS===]-----:-----[V]-       -[G]           [A]   |
+|      +-----+         \   |    /             |             |    |
+|      |                \  | /--+             |             |    |
+|  ==[G1]================[G2]===============[G4A]=========[G5A]= |
++----------------------------------------------------------------+
+| Legend (use exact names in option 3):                          |
+|  LS=StLaSalleHall   FC=FacultyCenter    M=StMiguelHall         |
+|  J=JohnHall         W=WilliamHall       MM=MutienMarieHall     |
+|  SPS=ConnonHall     SJ=StJosephHall     STRC=STRC              |
+|  Y=YuchengcoHall    H=HenrySyHall       E=RazonSportsCenter    |
+|  V=VelascoHall      B=BloemenHall       G=GokongweiHall        |
+|  A=AndrewGonzalezHall  G1=Gate1  G2=Gate2  AG=AgnoGate         |
+|  G4A=Gate4A  G5A=Gate5A                                        |
++----------------------------------------------------------------+
+=== Campus Map Finder ===
+1. Load campus map
+2. View places (A-to-Z)
+3. Find a path between 2 places
+4. Exit
+Enter choice (1-4): 3
+
+Enter start place: VelascoHall
+Enter destination place: AndrewGonzalezHall
+Fewest-stops path (BFS): VelascoHall -> AgnoGate -> AndrewGonzalezHall
+  Stops: 2 | Distance: 202 meters
+Shortest-distance path (Dijkstra): VelascoHall -> AgnoGate -> AndrewGonzalezHall
+  Stops: 2 | Distance: 202 meters
+
++----------------------------------------------------------------+
+|           DE LA SALLE UNIVERSITY - CAMPUS MAP GRAPH            |
+|  NORTH ->       Scale: ---- = 30m (1 col ~ 7.5m, 1 row ~ 15m)  |
++----------------------------------------------------------------+
+|                        [FC]-----[W]                            |
+|                          |     / |                             |
+|                  +------[==SJ==] |       [MM]                  |
+|                 /        |     \ |      /                      |
+|   +-----[SPS]--[Y]------[H]-----[B]--[M]-      [STRC]    [E]   |
+|   |        |    |      / | \    |   / |  \        |       |    |
+|  [J]       |    |     /  |  \   |  / [AG]-:-------+-------+    |
+|   |        |    |    /   |   \  | /  / \   \              |    |
+|   |        |    |   /    |    \ |/  /   \   \             |    |
+|   |        |    |  /     |     \|/ /     \  |             |    |
+|   +-------[===LS===]-----:-----[V]-       -[G]           [A]   |
+|      +-----+         \   |    /             |             |    |
+|      |                \  | /--+             |             |    |
+|  ==[G1]================[G2]===============[G4A]=========[G5A]= |
++----------------------------------------------------------------+
+| Legend (use exact names in option 3):                          |
+|  LS=StLaSalleHall   FC=FacultyCenter    M=StMiguelHall         |
+|  J=JohnHall         W=WilliamHall       MM=MutienMarieHall     |
+|  SPS=ConnonHall     SJ=StJosephHall     STRC=STRC              |
+|  Y=YuchengcoHall    H=HenrySyHall       E=RazonSportsCenter    |
+|  V=VelascoHall      B=BloemenHall       G=GokongweiHall        |
+|  A=AndrewGonzalezHall  G1=Gate1  G2=Gate2  AG=AgnoGate         |
+|  G4A=Gate4A  G5A=Gate5A                                        |
++----------------------------------------------------------------+
+=== Campus Map Finder ===
+1. Load campus map
+2. View places (A-to-Z)
+3. Find a path between 2 places
+4. Exit
+Enter choice (1-4): 3
+
+Enter start place: STRC
+Enter destination place: AndrewGonzalezHall
+Fewest-stops path (BFS): STRC -> AndrewGonzalezHall
+  Stops: 1 | Distance: 86 meters
+Shortest-distance path (Dijkstra): STRC -> AndrewGonzalezHall
+  Stops: 1 | Distance: 86 meters
+
++----------------------------------------------------------------+
+|           DE LA SALLE UNIVERSITY - CAMPUS MAP GRAPH            |
+|  NORTH ->       Scale: ---- = 30m (1 col ~ 7.5m, 1 row ~ 15m)  |
++----------------------------------------------------------------+
+|                        [FC]-----[W]                            |
+|                          |     / |                             |
+|                  +------[==SJ==] |       [MM]                  |
+|                 /        |     \ |      /                      |
+|   +-----[SPS]--[Y]------[H]-----[B]--[M]-      [STRC]    [E]   |
+|   |        |    |      / | \    |   / |  \        |       |    |
+|  [J]       |    |     /  |  \   |  / [AG]-:-------+-------+    |
+|   |        |    |    /   |   \  | /  / \   \              |    |
+|   |        |    |   /    |    \ |/  /   \   \             |    |
+|   |        |    |  /     |     \|/ /     \  |             |    |
+|   +-------[===LS===]-----:-----[V]-       -[G]           [A]   |
+|      +-----+         \   |    /             |             |    |
+|      |                \  | /--+             |             |    |
+|  ==[G1]================[G2]===============[G4A]=========[G5A]= |
++----------------------------------------------------------------+
+| Legend (use exact names in option 3):                          |
+|  LS=StLaSalleHall   FC=FacultyCenter    M=StMiguelHall         |
+|  J=JohnHall         W=WilliamHall       MM=MutienMarieHall     |
+|  SPS=ConnonHall     SJ=StJosephHall     STRC=STRC              |
+|  Y=YuchengcoHall    H=HenrySyHall       E=RazonSportsCenter    |
+|  V=VelascoHall      B=BloemenHall       G=GokongweiHall        |
+|  A=AndrewGonzalezHall  G1=Gate1  G2=Gate2  AG=AgnoGate         |
+|  G4A=Gate4A  G5A=Gate5A                                        |
++----------------------------------------------------------------+
+=== Campus Map Finder ===
+1. Load campus map
+2. View places (A-to-Z)
+3. Find a path between 2 places
 4. Exit
 Enter choice (1-4): 3
 
 Enter start place: StLaSalleHall
 Enter destination place: Nowhere
-
 Place not found: StLaSalleHall or Nowhere
 
++----------------------------------------------------------------+
+|           DE LA SALLE UNIVERSITY - CAMPUS MAP GRAPH            |
+|  NORTH ->       Scale: ---- = 30m (1 col ~ 7.5m, 1 row ~ 15m)  |
++----------------------------------------------------------------+
+|                        [FC]-----[W]                            |
+|                          |     / |                             |
+|                  +------[==SJ==] |       [MM]                  |
+|                 /        |     \ |      /                      |
+|   +-----[SPS]--[Y]------[H]-----[B]--[M]-      [STRC]    [E]   |
+|   |        |    |      / | \    |   / |  \        |       |    |
+|  [J]       |    |     /  |  \   |  / [AG]-:-------+-------+    |
+|   |        |    |    /   |   \  | /  / \   \              |    |
+|   |        |    |   /    |    \ |/  /   \   \             |    |
+|   |        |    |  /     |     \|/ /     \  |             |    |
+|   +-------[===LS===]-----:-----[V]-       -[G]           [A]   |
+|      +-----+         \   |    /             |             |    |
+|      |                \  | /--+             |             |    |
+|  ==[G1]================[G2]===============[G4A]=========[G5A]= |
++----------------------------------------------------------------+
+| Legend (use exact names in option 3):                          |
+|  LS=StLaSalleHall   FC=FacultyCenter    M=StMiguelHall         |
+|  J=JohnHall         W=WilliamHall       MM=MutienMarieHall     |
+|  SPS=ConnonHall     SJ=StJosephHall     STRC=STRC              |
+|  Y=YuchengcoHall    H=HenrySyHall       E=RazonSportsCenter    |
+|  V=VelascoHall      B=BloemenHall       G=GokongweiHall        |
+|  A=AndrewGonzalezHall  G1=Gate1  G2=Gate2  AG=AgnoGate         |
+|  G4A=Gate4A  G5A=Gate5A                                        |
++----------------------------------------------------------------+
 === Campus Map Finder ===
 1. Load campus map
 2. View places (A-to-Z)
-3. Find shortest route (BFS)
+3. Find a path between 2 places
 4. Exit
 Enter choice (1-4): 4
 
