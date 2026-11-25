@@ -1,3 +1,4 @@
+// Dynamic array list of Place objects with linear search and insertion sort.
 public class PlaceList {
     private Place[] items;
     private int count;
@@ -7,6 +8,7 @@ public class PlaceList {
         count = 0;
     }
 
+    // Adds a place if it is non-null and not already in the list.
     public boolean add(Place place) {
         if (place == null) {
             return false;
@@ -37,6 +39,7 @@ public class PlaceList {
         return count == 0;
     }
 
+    // Linear search by exact place name; returns -1 if missing.
     public int indexOf(String name) {
         for (int i = 0; i < count; i++) {
             if (items[i].getName().equals(name)) {
@@ -46,6 +49,7 @@ public class PlaceList {
         return -1;
     }
 
+    // Sorts a copy so original place indices in the graph stay intact.
     public PlaceList sortedCopy() {
         PlaceList copy = new PlaceList();
         for (int i = 0; i < count; i++) {

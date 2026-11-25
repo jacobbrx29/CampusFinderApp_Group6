@@ -1,3 +1,4 @@
+// Represents a single campus location with a name and graph index.
 public class Place {
     private final String name;
     private final int id;

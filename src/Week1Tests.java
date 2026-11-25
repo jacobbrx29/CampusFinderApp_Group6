@@ -1,3 +1,4 @@
+// Unit tests verifying PlaceList, insertion sort, and IntQueue behavior.
 public class Week1Tests {
     private static int passed = 0;
     private static int total = 0;
@@ -28,6 +29,7 @@ public class Week1Tests {
         }
     }
 
+    // PlaceList tests: add, get, duplicates, search, resize, and sort.
     private static void testEmptyList() {
         PlaceList list = new PlaceList();
         check("new list is empty", list.isEmpty() && list.size() == 0);
@@ -103,6 +105,7 @@ public class Week1Tests {
         check("sortedCopy of empty list", sorted.isEmpty());
     }
 
+    // IntQueue tests: FIFO ordering, circular wrap-around, and empty poll.
     private static void testQueueFifo() {
         IntQueue queue = new IntQueue();
         queue.add(1);
